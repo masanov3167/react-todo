@@ -1,12 +1,12 @@
 import lang from "./Lang";
 
-const Control = ({leftVal, allVal, language}) =>{
+const Control = ({itemNumber, language,all}) =>{
     return (
         <ol className="control-list">
-            <li>{leftVal}{lang[language].items}</li>
-            <li>{lang[language].all}{allVal}</li>
-            <li>{lang[language].active}</li>
-            <li>{lang[language].completed}</li>
+            <li>{itemNumber} {lang[language].items}</li>
+            <li className="all-item" onClick={all}>{lang[language].all}</li>
+            <li className="active-item" onClick={all}>{lang[language].active}</li>
+            <li className="complated-item" onClick={all}>{lang[language].completed}</li>
         </ol>
     )
 }

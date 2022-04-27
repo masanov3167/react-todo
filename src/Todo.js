@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Hidden from './Components/Hidden';
 import TodoItem from './Components/TodoItem';
 import Control from './Components/Control';
@@ -9,10 +9,20 @@ import './main.css';
 const Home = () => {
 	let newTodo;
 	const [todos, setTodos] = useState(JSON.parse(window.localStorage.getItem('todos')) || []);
-	const [leftVal, setLeftVal] = useState(0);
+	const [status, setStatus] = useState(0);
   const [lang, setLang] = useState("uz")
   const select = useRef("");
   
+  console.log(todos.filter(a => a.isComplated === false).length);
+
+//   const controlList = document.querySelector(".control-list");
+
+//   if(status > 0){
+// 	  controlList.classList.add("d-block");
+//   }
+//   if(status = 0){
+// 	  controlList.classList.remove("d-block");
+//   }
 
 	const inputVal = useRef();
 
@@ -23,6 +33,7 @@ const Home = () => {
 			title: inputVal.current.value,
 			isComplated: false,
 		};
+		// setStatus(status + 1)
 		window.localStorage.setItem('todos', JSON.stringify([...todos, newTodo]));
 		inputVal.current.value = null;
 		return setTodos([...todos, newTodo]);
@@ -33,6 +44,7 @@ const Home = () => {
 
 		const filter = todos.filter((a) => a.id !== btnId);
 		window.localStorage.setItem('todos', JSON.stringify(filter));
+		// setStatus(status - 1)
 		return setTodos(filter);
 	}
 
@@ -47,8 +59,21 @@ const Home = () => {
 		window.localStorage.setItem('todos', JSON.stringify([...todos]));
 	}
 
-  function changeLang(evt){
+  function changeLang(){
     setLang(select.current.value)
+  }
+
+  function all(evt){
+	  if(evt.target.matches(".all-item")){
+		setTodos(JSON.parse(window.localStorage.getItem("todos")));
+	  }
+	  if(evt.target.matches(".active-item")){
+		setTodos(JSON.parse(window.localStorage.getItem("todos")).filter(a => a.isComplated === false));
+		setStatus(todos.length);
+	  }
+	  if(evt.target.matches(".complated-item")){
+		setTodos(JSON.parse(window.localStorage.getItem("todos")).filter(a => a.isComplated === true));
+	  }
   }
 
 	return (
@@ -88,7 +113,7 @@ const Home = () => {
 					/>
 				))}
 			</ol>
-      <Control language={lang} />
+      <Control language={lang} itemNumber={todos.filter(a => a.isComplated === false).length} all={all}/>
 		</div>
 	);
 };

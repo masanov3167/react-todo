@@ -237,9 +237,13 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+    /* display: none; */
 }
 .control-list >li{
     padding: 2px 3px;
     box-shadow: 0 0 5px #4f29f0;
     border-radius: 5px;
 }
+/* .d-block{
+    display: flex;
+} */
