@@ -7,6 +7,8 @@ import langJs from './Components/Lang';
 import './main.css';
 
 const Home = () => {
+
+	const findUrl = str => str.split(' ').map(e => e.substr(2, (e.length-4) ).includes('.') || (e.substr(0, 5).includes('t.me/') && e.length>=10 )  ? `<a target='_blank' class='url' href='http://${e}'>${e}</a>` : e).join(' ')
 	let newTodo;
 	const [todos, setTodos] = useState(JSON.parse(window.localStorage.getItem('todos')) || []);
 	const [status, setStatus] = useState(0);
@@ -104,10 +106,10 @@ const Home = () => {
 					<TodoItem
 						key={index}
 						id={item.id}
-						title={item.title}
+						title={findUrl(item.title)}
 						dataset={item.id}
 						forId={item.id}
-						delfunc={delbtn}
+						delfunc={delbtn} 
 						checkedt={checked}
 						isCompleted={item.isComplated}
 					/>
